@@ -42,12 +42,14 @@ export function sendSMSOTP(phoneNumber) {
     return api
       .getOTPCode(phoneNumber)
       .then(result => {
-        dispatch(requestSMSOTPSuccess());
-        return result;
+          console.log(result);
+          dispatch(requestSMSOTPSuccess());
+          return result;
       })
       .catch(error => {
-        dispatch(requestSMSOTPFail());
-        throw error;
+          console.log(error);
+          dispatch(requestSMSOTPFail());
+          throw error;
       });
   };
 }

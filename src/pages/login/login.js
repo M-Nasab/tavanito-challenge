@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import "./login.scss";
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import {connect} from 'react-redux'
+import { sendSMSOTP } from '../../actions/actions';
 
 class LoginPage extends Component {
     constructor(props){
@@ -16,6 +18,7 @@ class LoginPage extends Component {
 
     requestVerificationCode(e){
         e.preventDefault();
+        this.props.getOTPCode(this.state.phoneNumber);
     }
 
     phoneNumberChange(event){
@@ -27,6 +30,7 @@ class LoginPage extends Component {
         return (
             <div className="login-page">
                 <form className="login-form" onSubmit={this.requestVerificationCode}>
+                    { this.props.isGettingOTPCode ? "is getting otp code ..." : null }
                     <div className="form-field">
                         <TextField
                             id="phone-number"
@@ -43,4 +47,18 @@ class LoginPage extends Component {
     }
 }
 
-export default LoginPage;
+const mapStateToProps = (state) => {
+    return {
+        isGettingOTPCode: state.loginPage.isGettingOTPCode
+    };
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getOTPCode: (mobile) => {
+            dispatch(sendSMSOTP(mobile)); 
+        }
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
