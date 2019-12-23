@@ -4,7 +4,6 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
 } from "react-router-dom";
 import {Provider} from 'react-redux'
 import LoginPage from './pages/login/login';
