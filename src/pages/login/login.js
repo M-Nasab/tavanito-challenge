@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import "./login.scss";
-import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
@@ -9,7 +8,7 @@ class LoginPage extends Component {
         super(props);
         this.phoneNumberChange = this.phoneNumberChange.bind(this);
         this.requestVerificationCode = this.requestVerificationCode.bind(this);
-        
+
         this.state = {
             phoneNumber: ''
         };
@@ -21,7 +20,7 @@ class LoginPage extends Component {
 
     phoneNumberChange(event){
         const phoneNumber = event.target.value;
-        this.setState({ phoneNumber })
+        this.setState({ phoneNumber });
     }
 
     render(){
