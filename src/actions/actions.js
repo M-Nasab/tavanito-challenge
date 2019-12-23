@@ -42,7 +42,6 @@ export function sendSMSOTP(phoneNumber) {
     return api
       .getOTPCode(phoneNumber)
       .then(result => {
-          console.log(result);
           dispatch(requestSMSOTPSuccess());
           return result;
       })

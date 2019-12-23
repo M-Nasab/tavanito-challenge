@@ -16,6 +16,9 @@ class ApplicationApi {
             headers,
             body: formdata
         }).then((response) => {
+            if(response.status !== 200){
+                throw response.json();
+            }
             return response.json();
         });
 

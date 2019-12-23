@@ -12,13 +12,21 @@ class LoginPage extends Component {
         this.requestVerificationCode = this.requestVerificationCode.bind(this);
 
         this.state = {
-            phoneNumber: ''
+            phoneNumber: '',
+            isGettingOTPCode: false
         };
     }
 
     requestVerificationCode(e){
         e.preventDefault();
-        this.props.getOTPCode(this.state.phoneNumber);
+
+        this.setState({ isGettingOTPCode: true });
+
+        this.props.getOTPCode(this.state.phoneNumber).then((result) => {    
+        }).catch((error) => {
+        }).finally(() => {
+            this.setState({ isGettingOTPCode: false });
+        });
     }
 
     phoneNumberChange(event){
@@ -30,7 +38,7 @@ class LoginPage extends Component {
         return (
             <div className="login-page">
                 <form className="login-form" onSubmit={this.requestVerificationCode}>
-                    { this.props.isGettingOTPCode ? "is getting otp code ..." : null }
+                    { this.state.isGettingOTPCode ? "is getting otp code ..." : null }
                     <div className="form-field">
                         <TextField
                             id="phone-number"
@@ -48,15 +56,13 @@ class LoginPage extends Component {
 }
 
 const mapStateToProps = (state) => {
-    return {
-        isGettingOTPCode: state.loginPage.isGettingOTPCode
-    };
+    return {};
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
         getOTPCode: (mobile) => {
-            dispatch(sendSMSOTP(mobile)); 
+            return dispatch(sendSMSOTP(mobile)); 
         }
     };
 }
