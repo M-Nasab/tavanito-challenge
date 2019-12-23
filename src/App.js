@@ -6,21 +6,24 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import {Provider} from 'react-redux'
 import LoginPage from './pages/login/login';
 import ProfilePage from './pages/profile/profile';
 
-function App() {
+function App({store}) {
   return (
-    <Router>
-      <Switch>
-        <Route path="/login">
-          <LoginPage></LoginPage>
-        </Route>
-        <Route path="/profile">
-          <ProfilePage></ProfilePage>
-        </Route>
-      </Switch>
-    </Router>
+    <Provider store={store}>
+      <Router>
+        <Switch>
+          <Route path="/login">
+            <LoginPage></LoginPage>
+          </Route>
+          <Route path="/profile">
+            <ProfilePage></ProfilePage>
+          </Route>
+        </Switch>
+      </Router>
+    </Provider>
   );
 }
 
