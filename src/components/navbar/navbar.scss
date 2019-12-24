@@ -1,0 +1,19 @@
+.navbar {
+    box-sizing: border-box;
+    padding: 15px;
+    background-color: purple;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    margin-bottom: 30px;
+
+    button {
+        margin-right: 30px;
+    }
+}
+
+.navbar--mobile {
+    color: #ffffff;
+}

@@ -161,3 +161,11 @@ export function updateUser(user){
         });
     };
 }
+
+export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
+
+export function logoutSuccess(){
+    return {
+        type: LOGOUT_SUCCESS
+    };
+};

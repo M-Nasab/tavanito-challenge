@@ -18,7 +18,7 @@ const store = createStore(authAppReducer, initialState, applyMiddleware(
 // Persist application state
 store.subscribe(() => {
     const state = store.getState();
-    
+
     if(state){
         localStorage.setItem("applicationState", JSON.stringify(state));
     } else {

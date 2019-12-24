@@ -4,6 +4,7 @@ import { TextField, CircularProgress } from '@material-ui/core';
 import {connect} from 'react-redux'
 import { getUser, updateUser } from '../../actions/actions';
 import Button from '@material-ui/core/Button';
+import Navbar from "../../components/navbar/navbar";
 
 class ProfilePage extends Component {
     constructor(props){
@@ -172,7 +173,7 @@ class ProfilePage extends Component {
                     ></TextField>
                 </div>
                 <div className="actions-container">
-                    <Button disabled={this.state.isLoggingIn} type="submit" variant="contained" color="primary">Save</Button>
+                    <Button disabled={this.state.isUpdating} type="submit" variant="contained" color="primary">Save</Button>
                 </div>
                 {
                     this.state.updated ? (
@@ -208,6 +209,7 @@ class ProfilePage extends Component {
     render(){
         return (
             <div className="profile-page">
+                <Navbar></Navbar>
                 {
                     !this.state.isLoading ? this.profileForm() : 
                     <div className="spinner-container">

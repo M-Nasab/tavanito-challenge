@@ -62,7 +62,8 @@ class ApplicationApi {
                 first_name: userData && userData.first_name,
                 last_name: userData && userData.last_name,
                 email: userData && userData.email,
-                avatar: userData && userData.avatar
+                avatar: userData && userData.avatar,
+                mobile: userData && userData.mobile
             };
 
             return user;
