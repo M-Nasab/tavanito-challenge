@@ -60,14 +60,6 @@ export function requestLoginWithOTP(){
     };
 }
 
-export const REQUEST_LOGIN_WITH_OTP_SUCCESS = "REQUEST_LOGIN_WITH_OTP_SUCCESS";
-
-export function requestLoginWithOTPSuccess(){
-    return {
-        type: REQUEST_LOGIN_WITH_OTP_SUCCESS
-    };
-}
-
 export const REQUEST_LOGIN_WITH_OTP_FAIL = "REQUEST_LOGIN_WITH_OTP_FAIL";
 
 export function requestLoginWithOTPFail(){
@@ -80,9 +72,9 @@ export function loginWithOTP(mobile, code) {
     return function(dispatch) {
         dispatch(requestLoginWithOTP());
 
-        return api.loginWithOTP(mobile, code).then((result) => {
-            dispatch(requestLoginWithOTPSuccess());
-            return result;
+        return api.loginWithOTP(mobile, code).then((user) => {
+            dispatch(loginSuccess(user));
+            return user;
         })
         .catch((error) => {
             dispatch(requestLoginWithOTPFail());

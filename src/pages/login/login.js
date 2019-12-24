@@ -21,6 +21,8 @@ class LoginPage extends Component {
             isGettingOTPCode: false,
             isOTPCodeSent: false,
             error: undefined,
+            loginCodeError: undefined,
+            loginMobileError: undefined,
             isLoggingIn: false
         };
     }
@@ -50,22 +52,37 @@ class LoginPage extends Component {
     loginWithOTP(e){
         e.preventDefault();
 
+        this.setState({ isLoggingIn: true, loginCodeError: undefined, loginMobileError: undefined });
 
+        this.props.loginWithOTP(this.state.phoneNumber, this.state.OTPCode)
+        .catch((error) => {
+            const codeErrorMessage = error && error.errors && error.errors.code && error.errors.code[0];
+            const mobileErrorMessage = error && error.errors && error.errors.mobile && error.errors.mobile[0];
+            this.setState({
+                loginCodeError: codeErrorMessage,
+                loginMobileError: mobileErrorMessage
+            });
+        })
+        .finally(() => {
+            this.setState({ isLoggingIn: false });
+        })
     }
 
     OTPCodeChange(event){
         const OTPCode = event.target.value;
-        this.setState({ OTPCode });
+        this.setState({ OTPCode, loginCodeError: undefined });
     }
 
     phoneNumberChange(event){
         const phoneNumber = event.target.value;
-        this.setState({ phoneNumber, error: undefined });
+        this.setState({ phoneNumber, error: undefined, loginMobileError: undefined });
     }
 
     requestOTPCodeAgain(){
         this.setState({
-            isOTPCodeSent: false
+            isOTPCodeSent: false,
+            loginMobileError: undefined,
+            loginCodeError: undefined
         });
     }
 
@@ -137,6 +154,26 @@ class LoginPage extends Component {
                 <div className="form-field">
                     <Button type="button" variant="contained" color="secondary" onClick={this.requestOTPCodeAgain}>Didn't get the code? try again</Button>
                 </div>
+
+                {
+                    this.state.loginCodeError ? (
+                        <div className="form-field">
+                            <div className="error">
+                                { this.state.loginCodeError }
+                            </div>
+                        </div>
+                    ) : null
+                }
+
+                {
+                    this.state.loginMobileError ? (
+                        <div className="form-field">
+                            <div className="error">
+                                { this.state.loginMobileError }
+                            </div>
+                        </div>
+                    ) : null
+                }
             </form>
         );
     }

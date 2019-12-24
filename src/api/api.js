@@ -44,7 +44,28 @@ class ApplicationApi {
                     throw error;
                 });
             }
+
             return response.json();
+        }).then((result) => {
+            const accessToken = result.access_token;
+            const refreshToken = result.refresh_token;
+            const expiresIn = result.expires_in;
+            const tokenType = result.token_type;
+
+            localStorage.setItem("accessToken", accessToken);
+            localStorage.setItem("refreshToken", refreshToken);
+            localStorage.setItem("expiresIn", expiresIn);
+            localStorage.setItem("tokenType", tokenType);
+
+            const userData = result.data;
+            const user = {
+                first_name: userData && userData.first_name,
+                last_name: userData && userData.last_name,
+                email: userData && userData.email,
+                avatar: userData && userData.avatar
+            };
+
+            return user;
         });
 
         return promise;
