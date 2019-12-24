@@ -62,10 +62,7 @@ class LoginPage extends Component {
                 loginCodeError: codeErrorMessage,
                 loginMobileError: mobileErrorMessage
             });
-        })
-        .finally(() => {
-            this.setState({ isLoggingIn: false });
-        })
+        });
     }
 
     OTPCodeChange(event){
