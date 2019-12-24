@@ -18,6 +18,14 @@
     border-radius: 15px;
 }
 
-.form-field {
+.form-field:not(:last-child) {
     margin-bottom: 15px;
+}
+
+.spinner-container {
+    padding: 15px;
+}
+
+.error {
+    color: #ff0000;
 }

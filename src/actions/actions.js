@@ -46,9 +46,47 @@ export function sendSMSOTP(phoneNumber) {
           return result;
       })
       .catch(error => {
-          console.log(error);
           dispatch(requestSMSOTPFail());
           throw error;
       });
   };
+};
+
+export const REQUEST_LOGIN_WITH_OTP = "REQUEST_LOGIN_WITH_OTP";
+
+export function requestLoginWithOTP(){
+    return {
+        type: REQUEST_LOGIN_WITH_OTP
+    };
+}
+
+export const REQUEST_LOGIN_WITH_OTP_SUCCESS = "REQUEST_LOGIN_WITH_OTP_SUCCESS";
+
+export function requestLoginWithOTPSuccess(){
+    return {
+        type: REQUEST_LOGIN_WITH_OTP_SUCCESS
+    };
+}
+
+export const REQUEST_LOGIN_WITH_OTP_FAIL = "REQUEST_LOGIN_WITH_OTP_FAIL";
+
+export function requestLoginWithOTPFail(){
+    return {
+        type: REQUEST_LOGIN_WITH_OTP_FAIL
+    };
+}
+
+export function loginWithOTP(mobile, code) {
+    return function(dispatch) {
+        dispatch(requestLoginWithOTP());
+
+        return api.loginWithOTP(mobile, code).then((result) => {
+            dispatch(requestLoginWithOTPSuccess());
+            return result;
+        })
+        .catch((error) => {
+            dispatch(requestLoginWithOTPFail());
+            throw error;
+        });
+    }
 }
