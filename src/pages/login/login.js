@@ -3,7 +3,7 @@ import "./login.scss";
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import {connect} from 'react-redux'
-import { sendSMSOTP } from '../../actions/actions';
+import { sendSMSOTP, loginWithOTP } from '../../actions/actions';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 class LoginPage extends Component {
@@ -160,7 +160,7 @@ const mapDispatchToProps = (dispatch) => {
             return dispatch(sendSMSOTP(mobile)); 
         },
         loginWithOTP: (mobile, code) => {
-            return dispatch();
+            return dispatch(loginWithOTP(mobile, code));
         }
     };
 }
