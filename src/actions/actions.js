@@ -80,5 +80,45 @@ export function loginWithOTP(mobile, code) {
             dispatch(requestLoginWithOTPFail());
             throw error;
         });
-    }
+    };
+}
+
+export const GET_USER_START = "GET_USER_START";
+
+export function getUserStart(){
+    return {
+        type: GET_USER_START
+    };
+};
+
+export const GET_USER_FAILURE = "GET_USER_FAILURE";
+
+export function getUserFailure(){
+    return {
+        type: GET_USER_FAILURE
+    };
+};
+
+export const GET_USER_SUCCESS = "GET_USER_SUCCESS";
+
+export function getUserSuccess(userInfo){
+    return {
+        type: GET_USER_SUCCESS,
+        userInfo
+    };
+}
+
+export function getUser(){
+    return function(dispatch){
+        dispatch(getUserStart());
+
+        return api.getUserInfo().then((userInfo) => {
+            dispatch(getUserSuccess(userInfo.data));
+            return userInfo.data;
+        })
+        .catch((error) => {
+            dispatch(getUserFailure());
+            throw error;
+        });
+    };
 }

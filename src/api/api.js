@@ -72,9 +72,16 @@ class ApplicationApi {
     }
 
     getUserInfo(){
+        const accessToken = localStorage.getItem("accessToken");
+        const tokenType = localStorage.getItem("tokenType");
+
         const headers = new Headers();
         headers.append("Accept", "application/json");
 
+        if(accessToken && tokenType){
+            headers.append("Authorization", `${tokenType} ${accessToken}`);
+        }
+        
         const promise = fetch(`${this.apiUrl}/user`, {
             method: 'GET',
             headers
@@ -91,8 +98,15 @@ class ApplicationApi {
     }
 
     updateUserInfo(user){
+        const accessToken = localStorage.getItem("accessToken");
+        const tokenType = localStorage.getItem("tokenType");
+
         const headers = new Headers();
         headers.append("Accept", "application/json");
+        
+        if(accessToken && tokenType){
+            headers.append("Authorization", `${tokenType} ${accessToken}`);
+        }
 
         const formdata = new FormData();
 
