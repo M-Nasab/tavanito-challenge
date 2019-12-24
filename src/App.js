@@ -8,18 +8,22 @@ import {
 import {Provider} from 'react-redux'
 import LoginPage from './pages/login/login';
 import ProfilePage from './pages/profile/profile';
+import AuthenticatedRoute from './components/authenticated-route/authenticated-route';
+import UnauthenticatedRoute from './components/unauthenticated-route/unauthenticated-route';
 
 function App({store}) {
   return (
     <Provider store={store}>
       <Router>
         <Switch>
-          <Route path="/login">
+          <UnauthenticatedRoute path="/login">
             <LoginPage></LoginPage>
-          </Route>
-          <Route path="/profile">
+          </UnauthenticatedRoute>
+
+          <AuthenticatedRoute path="/profile">
             <ProfilePage></ProfilePage>
-          </Route>
+          </AuthenticatedRoute>
+
         </Switch>
       </Router>
     </Provider>
