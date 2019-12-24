@@ -2,15 +2,19 @@ import React, {Component} from 'react';
 import "./profile.scss";
 import { TextField, CircularProgress } from '@material-ui/core';
 import {connect} from 'react-redux'
-import { getUser } from '../../actions/actions';
+import { getUser, updateUser } from '../../actions/actions';
 import Button from '@material-ui/core/Button';
 
 class ProfilePage extends Component {
     constructor(props){
         super(props);
 
+        this.saveProfile = this.saveProfile.bind(this);
+
         this.state = {
             isLoading: false,
+            isUpdating: false,
+            updated: false,
             first_name: '',
             last_name: '',
             email: '',
@@ -24,7 +28,6 @@ class ProfilePage extends Component {
     componentDidMount(){
         this.setState({ isLoading: true });
         this.props.getUser().then((userInfo) => {
-            console.log(userInfo);
             const {
                 first_name,
                 last_name,
@@ -53,7 +56,43 @@ class ProfilePage extends Component {
     fieldChange(fieldName, event){
         const value = event && event.target && event.target.value;
         this.setState({
-            [fieldName]: value
+            [fieldName]: value,
+            updated: false,
+            error: false
+        });
+    }
+
+    saveProfile(event){
+        event.preventDefault();
+
+        const {
+            first_name,
+            last_name,
+            email,
+            national_code,
+            telephone,
+            mobile
+        } = this.state;
+
+        const user = {
+            first_name,
+            last_name,
+            email,
+            national_code,
+            telephone,
+            mobile
+        };
+
+        this.setState({ isUpdating: true });
+        this.props.updateUser(user).then(() => {
+            this.setState({ updated: true });
+        }).catch((error) => {
+            console.log(error);
+            const errorMessage = error && error.errors;
+            this.setState({ error: errorMessage });
+        })
+        .finally(() => {
+            this.setState({ isUpdating: false });
         });
     }
 
@@ -61,7 +100,7 @@ class ProfilePage extends Component {
         const avatarUrl = this.state.avatar && this.state.avatar["200x200-fit"];
 
         return (
-            <form className="profile-form">
+            <form className="profile-form" onSubmit={this.saveProfile}>
                 <div className="profile-form--avatar">
                     <div className="avatar">
                         <img src={avatarUrl} alt="user avatar"></img>
@@ -135,6 +174,33 @@ class ProfilePage extends Component {
                 <div className="actions-container">
                     <Button disabled={this.state.isLoggingIn} type="submit" variant="contained" color="primary">Save</Button>
                 </div>
+                {
+                    this.state.updated ? (
+                        <div className="form-field">
+                            <div className="success">
+                                پروفایل کاربری شما با موفقیت ذخیره شد
+                            </div>
+                        </div>
+                    ) : null
+                }
+
+                {
+                    this.state.error ? (
+                        <div className="form-field">
+                            <div className="error">
+                                { this.state.error }
+                            </div>
+                        </div>
+                    ) : null
+                }
+
+                {
+                    this.state.isUpdating ? (
+                        <div className="spinner-container">
+                            <CircularProgress></CircularProgress>
+                        </div>
+                    ) : null
+                }
             </form>
         );
     }
@@ -161,6 +227,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         getUser: () => {
             return dispatch(getUser());
+        },
+        updateUser: (user) => {
+            return dispatch(updateUser(user))
         }
     };
 };

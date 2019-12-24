@@ -81,7 +81,7 @@ class ApplicationApi {
         if(accessToken && tokenType){
             headers.append("Authorization", `${tokenType} ${accessToken}`);
         }
-        
+
         const promise = fetch(`${this.apiUrl}/user`, {
             method: 'GET',
             headers
@@ -110,15 +110,20 @@ class ApplicationApi {
 
         const formdata = new FormData();
 
-        if(user.first_name !== null && user.first_name !== undefined){
-            formdata.append("first_name", user.first_name);
-        }
-        if(user.last_name !== null && user.last_name !== undefined){
-            formdata.append("last_name", user.last_name);
-        }
-        if(user.email !== null && user.email !== undefined){
-            formdata.append("email", user.email);
-        }
+        const fields = [
+            "first_name",
+            "last_name",
+            "email",
+            // "telephone",
+            // "mobile",
+            // "national_code"
+        ];
+
+        fields.forEach((field) => {
+            if(isSet(user[field])){
+                formdata.append(field, user[field]);
+            }
+        });
 
         const promise = fetch(`${this.apiUrl}/user`, {
             method: 'PUT',
@@ -135,6 +140,10 @@ class ApplicationApi {
 
         return promise;
     }
+}
+
+function isSet(value) {
+    return value !== null && value !== undefined;
 }
 
 export default ApplicationApi;

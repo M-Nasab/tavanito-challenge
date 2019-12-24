@@ -122,3 +122,42 @@ export function getUser(){
         });
     };
 }
+
+export const UPDATE_USER_START = "UPDATE_USER_START";
+
+export function updateUserStart(){
+    return {
+        type: GET_USER_START
+    };
+};
+
+export const UPDATE_USER_FAILURE = "UPDATE_USER_FAILURE";
+
+export function updateUserFailure(){
+    return {
+        type: GET_USER_FAILURE
+    };
+};
+
+export const UPDATE_USER_SUCCESS = "UPDATE_USER_SUCCESS";
+
+export function updateUserSuccess(userInfo){
+    return {
+        type: GET_USER_SUCCESS,
+        userInfo
+    };
+}
+
+export function updateUser(user){
+    return function(dispatch){
+        dispatch(updateUserStart());
+
+        return api.updateUserInfo(user).then(() => {
+            dispatch(updateUserSuccess());
+        })
+        .catch((error) => {
+            dispatch(updateUserFailure());
+            throw error;
+        });
+    };
+}
